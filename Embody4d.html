@@ -1,0 +1,833 @@
+<!DOCTYPE demo/>
+<demo/>
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Embody4D: A Generalist 4D World Model for Embodied AI">
+    <meta name="keywords" content="WorldModel, 4DGeneration, EmbodiedAI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Embody4D: A Generalist 4D World Model for Embodied AI</title>
+    
+    <link rel="icon" type="image/jpeg" href="demo//png/logo.JPG">
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans', 'Google Sans', sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            color: #222222;
+        }
+        .world-gen-title {
+            color: #ffd700; /* 金色，和深色背景区分度大 */
+            font-weight: bold;
+        }
+        .best-score-text {
+            color: #d4af37;
+            font-weight: bold;
+        }
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .table th {
+            background-color: #f5f5f5;
+        }
+        .category-row {
+            background-color: #e8f4fd;
+            font-weight: bold;
+            color: #2c5282;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .dimension-tag {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            margin: 0.1rem;
+            border-radius: 0.25rem;
+            background-color: #f0f8ff;
+            border: 1px solid #b0d4ff;
+            font-size: 0.875rem;
+        }
+
+        /* 标题与正文的整体视觉优化 */
+        .title.is-1 {
+            letter-spacing: 0.04em;
+        }
+        .title.is-3 {
+            font-weight: 700;
+        }
+        .content p {
+            font-size: 0.98rem;
+        }
+
+        /* Abstract 专用左侧加粗边框 */
+        .abstract-box {
+            border-left: 4px solid #ffd700;
+            padding-left: 1.5rem;
+            background: #fbfbff;
+            border-radius: 0.5rem;
+        }
+
+        /* ===== 新增：让表格在小屏可横向滚动，并稍微收紧间距 ===== */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .table th, .table td {
+            padding: 0.4rem 0.55rem; /* 收紧 */
+            font-size: 0.9rem;       /* 略微缩小 */
+            white-space: nowrap;     /* 避免长英文被强制换行导致行高暴涨 */
+        }
+        @media (max-width: 1024px) {
+            .table th, .table td { font-size: 0.85rem; }
+        }
+
+        /* ===== 可选增强：吸顶表头 + 冻结首列（如需要可取消注释） ===== */
+        /*
+        .table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        .table tbody tr > td:first-child,
+        .table thead tr > th:first-child {
+            position: sticky;
+            left: 0;
+            background: #fff;
+            z-index: 1;
+        }
+        */
+
+        /* Video Comparison Gallery：Input 右侧描述文字垂直居中、字体优化 */
+        .input-desc-col {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* 提高优先级，避免被 .content p 的 0.98rem 覆盖 */
+        .content .input-desc-text {
+            font-family: 'Noto Sans', 'Google Sans', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem !important;
+            text-align: center;
+            margin: 0;
+            line-height: 1.6;
+            color: #2563eb;
+        }
+        .content .input-desc-text .input-robot-name {
+            color: #c0392b;
+            font-weight: 600;
+        }
+        .highlight-rate {
+            color: #c0392b;
+            font-size: 1.15em;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 顶部标题区域（保持不变，只是简化文本） -->
+    <section class="hero hero-gradient">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <h1 class="title is-1 publication-title is-bold" style="color: white;">
+                            <span class="world-gen-title">Embody4D</span>
+                        </h1>
+                        <h2 class="subtitle is-3 publication-subtitle" style="color: white;">
+                            A Generalist 4D World Model for Embodied AI
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 顶部大图：整宽展示 -->
+    <section class="section" style="padding-top: 1.5rem; padding-bottom: 0.5rem;">
+        <div class="container is-max-desktop">
+            <figure class="image">
+                <img src="demo//png/teaser.png" alt="Embody4D teaser" style="width: 100%; height: auto; display: block;">
+            </figure>
+        </div>
+    </section>
+
+    <!-- Abstract 区域，增加卡片式框框展示 -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="content">
+                <h2 class="title is-3">
+                    <img src="demo//png/abstract.png" alt="Embody4D abstract icon" style="height: 2.1rem; width: auto; vertical-align: middle; margin-right: 0.5rem;">
+                    Abstract
+                </h2>
+            </div>
+
+            <div class="columns is-multiline">
+                <!-- Abstract 主体卡片：占一整行，文字整行（两端）对齐，左侧加粗边框 -->
+                <div class="column is-full">
+                    <div class="box has-text-justified abstract-box">
+                        <p>
+                            World models have made significant progress in modeling dynamic environments; however, most embodied world models are still restricted to 2D representations, lacking the comprehensive multi-view information essential for embodied spatial reasoning. Bridging this gap is non-trivial, primarily due to challenges from severe scarcity of paired multi-view data, the difficulty of maintaining spatiotemporal consistency in generated 3D geometries, and the tendency to hallucinate manipulation details. To address these challenges, we propose Embody4D, a dedicated video-to-video world model for embodied scenarios, capable of synthesizing arbitrary novel views from a monocular video. First, to tackle data scarcity, we introduce a 3D-aware compositional synthesis pipeline to curate a heterogeneous dataset compositing cross-embodiment robotic arms with diverse backgrounds, guaranteeing broad generalization. Second, to enforce geometric stability, we devise an adaptive noise injection strategy; by leveraging confidence disparities across image regions, this method selectively regularizes the diffusion process to ensure strict spatiotemporal consistency. Finally, to guarantee manipulation fidelity, we incorporate an interaction-aware attention mechanism that explicitly attends to the robotic interaction regions. Extensive experiments demonstrate that Embody4D achieves state-of-the-art performance, serving as a robust world model that synthesizes high-fidelity, view-consistent videos to empower downstream robotic planning and learning.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Framework Overview 区域（与 Abstract 同形式） -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="content">
+                <h2 class="title is-3">
+                    <img src="demo//png/framework.png" alt="Embody4D framework icon" style="height: 2.1rem; width: auto; vertical-align: middle; margin-right: 0.5rem;">
+                    Framework Overview
+                </h2>
+            </div>
+
+            <div class="columns is-multiline">
+                <div class="column is-full">
+                    <div class="box has-text-justified abstract-box">
+                        <figure class="image">
+                            <img src="demo//png/pipeline.JPG" alt="Embody4D pipeline" style="width: 100%; height: auto;">
+                            <figcaption style="margin-top: 0.75rem; font-size: 0.9rem; color: #555; line-height: 1.6;">
+                                <strong>Figure: Overview of Embody4D.</strong> We construct paired embodied training videos in 3D via compositional synthesis and process them with a "warp-then-inpaint" architecture. The source video is reconstructed into a point cloud and projected to the target view to produce warped RGB plus occupancy masks; these are concatenated and passed to a confidence module that adaptively injects different noise levels. Finally, a backbone model with an interaction-aware block outputs the target-view video with highly consistent manipulation details.
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Comparison Gallery：首行 Input + 文字，以下为对比模型 -->
+    <section class="section" id="video-comparison-gallery">
+        <div class="container is-widescreen">
+            <div class="content">
+                <h2 class="title is-3">
+                    <img src="demo//png/compare.png" alt="Embody4D compare icon" style="height: 2.1rem; width: auto; vertical-align: middle; margin-right: 0.5rem;">
+                    Video Comparison Gallery
+                </h2>
+
+                <!-- 第一行：Input 1 与下面单列同宽(1/4)，右侧文字占 3/4 -->
+                <div class="box" style="margin-bottom: 1rem; padding: 0.75rem;">
+                    <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">Input</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/input1.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-three-quarters input-desc-col">
+                            <p class="input-desc-text">
+                                A <span class="input-robot-name">AGIBOT dual-arm robotic</span> is performing a task with a toaster.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第 2 行：traj1 | recammaster1 | ex4d1 | ours1 -->
+                <div class="box" style="margin-bottom: 1rem; padding: 0.75rem;">
+                    <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">TrajectoryCrafter</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/traj1.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">ReCamMaster</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/recammaster1.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">Ex-4D</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/ex4d1.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">Ours</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/ours1.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input 2 单独一行 -->
+                <div class="box" style="margin-bottom: 1rem; padding: 0.75rem;">
+                    <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">Input</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/input2.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-three-quarters input-desc-col">
+                            <p class="input-desc-text">
+                                A <span class="input-robot-name">Franka robotic arm</span> engaging in a sorting or retrieval task on a dark tabletop.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第 3 行：traj2 | recammaster2 | ex4d2 | ours2 -->
+                <div class="box" style="margin-bottom: 1rem; padding: 0.75rem;">
+                    <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">TrajectoryCrafter</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/traj2.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">ReCamMaster</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/recammaster2.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">Ex-4D</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/ex4d2.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">Ours</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/ours2.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input 3 单独一行 -->
+                <div class="box" style="margin-bottom: 1rem; padding: 0.75rem;">
+                    <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">Input</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/input3.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-three-quarters input-desc-col">
+                            <p class="input-desc-text">
+                                A <span class="input-robot-name">Universal robotic arm</span> performing a block-sorting task on a wooden desk.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第 4 行：traj3 | recammaster3 | ex4d3 | ours3 -->
+                <div class="box" style="margin-bottom: 1rem; padding: 0.75rem;">
+                    <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">TrajectoryCrafter</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/traj3.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">ReCamMaster</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/recammaster3.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">Ex-4D</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/ex4d3.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">Ours</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/ours3.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input 4 单独一行 -->
+                <div class="box" style="margin-bottom: 1rem; padding: 0.75rem;">
+                    <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">Input</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/input4.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-three-quarters input-desc-col">
+                            <p class="input-desc-text">
+                                A <span class="input-robot-name">LIFT2 dual-arm robotic </span> performing manipulation tasks on a light-colored tabletop.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第 5 行：traj4 | recammaster4 | ex4d4 | ours4 -->
+                <div class="box" style="padding: 0.75rem;">
+                    <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">TrajectoryCrafter</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/traj4.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">ReCamMaster</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/recammaster4.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">Ex-4D</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/ex4d4.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <h3 class="title is-5" style="margin-bottom: 0.5rem;">Ours</h3>
+                            <video controls autoplay muted loop width="100%">
+                                <source src="demo//compare/ours4.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quantitative comparisons table -->
+                <div class="box abstract-box" style="margin-top: 1.5rem; padding: 1rem;">
+                    <div class="table-container" style="text-align: center;">
+                        <table class="table is-narrow is-bordered has-text-centered" style="font-size: 0.9rem; width: 100%; margin: 0;">
+                            <caption style="caption-side: top; text-align: center; margin-bottom: 0.75rem; color: #333; font-size: 0.95rem;">
+                                <strong>Quantitative comparisons.</strong> <strong>Bold</strong>: Best. <span style="text-decoration: underline;">Underline</span>: Second Best. Our method consistently outperforms baselines on VBench and Q-Align.
+                            </caption>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th colspan="5">VBench &uarr;</th>
+                                <th>Q-Align &uarr;</th>
+                            </tr>
+                            <tr>
+                                <th><strong>Method</strong></th>
+                                <th>Subject</th>
+                                <th>Background</th>
+                                <th>Temporal</th>
+                                <th>Motion</th>
+                                <th>Imaging</th>
+                                <th>Visual Quality</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ReCamMaster</td>
+                                <td>0.8981</td>
+                                <td>0.8976</td>
+                                <td><span style="text-decoration: underline;">0.9717</span></td>
+                                <td>0.9841</td>
+                                <td>0.5914</td>
+                                <td>3.4938</td>
+                            </tr>
+                            <tr>
+                                <td>Ex-4D</td>
+                                <td>0.8088</td>
+                                <td>0.8906</td>
+                                <td>0.9213</td>
+                                <td>0.9742</td>
+                                <td>0.5732</td>
+                                <td>2.8585</td>
+                            </tr>
+                            <tr>
+                                <td>TrajtoryCrafter</td>
+                                <td><span style="text-decoration: underline;">0.9202</span></td>
+                                <td><span style="text-decoration: underline;">0.9388</span></td>
+                                <td>0.9714</td>
+                                <td><span style="text-decoration: underline;">0.9911</span></td>
+                                <td><span style="text-decoration: underline;">0.6257</span></td>
+                                <td><span style="text-decoration: underline;">3.8954</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ours</strong></td>
+                                <td><strong>0.9477</strong></td>
+                                <td><strong>0.9408</strong></td>
+                                <td><strong>0.9751</strong></td>
+                                <td><strong>0.9945</strong></td>
+                                <td><strong>0.6994</strong></td>
+                                <td><strong>3.9970</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- More Results: Pan left -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="content">
+                <h1 class="title is-3">
+                    <img src="demo//png/camera.png" alt="Pan Left camera icon" style="height: 2.1rem; width: auto; vertical-align: middle; margin-right: 0.5rem;">
+                    More Results Gallery
+                </h1>
+            </div>
+
+            <!-- 下方：标签在外、视频和 Pan Left 共同在一个框内 -->
+            <div class="columns is-multiline is-variable is-2" style="margin-top: 0.5rem; margin-bottom: 0.35rem;">
+                <div class="column is-half">
+                    <span class="title is-4" style="color: #3083bf;">
+                        <img src="demo//png/Input.png" alt="Input icon" style="height: 2.1rem; width: auto; vertical-align: middle; margin-right: 0.4rem;">
+                        Input
+                    </span>
+                </div>
+                <div class="column is-half">
+                    <span class="title is-4" style="color: #3083bf;">
+                        <img src="demo//png/output.png" alt="Embody4D output icon" style="height: 2.1rem; width: auto; vertical-align: middle; margin-right: 0.4rem;">
+                        Embody4D
+                    </span>
+                </div>
+            </div>
+
+            <div class="box" style="padding: 1rem;">
+                <div class="columns is-multiline is-variable is-2" style="margin-bottom: 0.5rem;">
+                    <div class="column is-half has-text-centered">
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//demo/input1.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-half has-text-centered">
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//demo/gen1_98.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                <div class="content has-text-centered" style="margin: 0;">
+                    <h2 class="title is-5" style="color: #555;">Pan Left</h2>
+                </div>
+            </div>
+
+            <div class="box" style="padding: 1rem;">
+                <div class="columns is-multiline is-variable is-2" style="margin-bottom: 0.5rem;">
+                    <div class="column is-half has-text-centered">
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//demo/input2.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-half has-text-centered">
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//demo/gen2_98.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                <div class="content has-text-centered" style="margin: 0;">
+                    <h2 class="title is-5" style="color: #555;">Tilt Down</h2>
+                </div>
+            </div>
+
+            <div class="box" style="padding: 1rem;">
+                <div class="columns is-multiline is-variable is-2" style="margin-bottom: 0.5rem;">
+                    <div class="column is-half has-text-centered">
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//demo/input3.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-half has-text-centered">
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//demo/gen3_98.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                <div class="content has-text-centered" style="margin: 0;">
+                    <h2 class="title is-5" style="color: #555;">Arc Right</h2>
+                </div>
+            </div>
+
+            <div class="box" style="padding: 1rem;">
+                <div class="columns is-multiline is-variable is-2" style="margin-bottom: 0.5rem;">
+                    <div class="column is-half has-text-centered">
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//demo/input4.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-half has-text-centered">
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//demo/gen4_98.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                <div class="content has-text-centered" style="margin: 0;">
+                    <h2 class="title is-5" style="color: #555;">Zoom In</h2>
+                </div>
+            </div>
+
+            <div class="box" style="padding: 1rem;">
+                <div class="columns is-multiline is-variable is-2" style="margin-bottom: 0.5rem;">
+                    <div class="column is-half has-text-centered">
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//demo/input5.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-half has-text-centered">
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//demo/gen5_98.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                <div class="content has-text-centered" style="margin: 0;">
+                    <h2 class="title is-5" style="color: #555;">Pan Right</h2>
+                </div>
+            </div>
+
+            <div class="box" style="padding: 1rem;">
+                <div class="columns is-multiline is-variable is-2" style="margin-bottom: 0.5rem;">
+                    <div class="column is-half has-text-centered">
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//demo/input6.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-half has-text-centered">
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//demo/gen6_98.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                <div class="content has-text-centered" style="margin: 0;">
+                    <h2 class="title is-5" style="color: #555;">Arc Left</h2>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <!-- Application 区域（与 Abstract / Framework 类似） -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="content">
+                <h2 class="title is-3">
+                    <img src="demo//png/robot.png" alt="Application robot icon" style="height: 2.1rem; width: auto; vertical-align: middle; margin-right: 0.5rem;">
+                    Application
+                </h2>
+            </div>
+
+            <div class="columns is-multiline">
+                <div class="column is-full">
+                    <div class="box has-text-justified abstract-box">
+                        <p>
+                            Embody4D acts as a scalable data engine for downstream robotic manipulation and planning. Leveraging its novel-view synthesis capability, the success rate of π0.5 improves dramatically from <span class="highlight-rate">32% to 74%</span>, with particularly strong generalization to out-of-distribution (OOD) tasks.
+                        </p>
+                        <div class="table-container" style="margin-top: 1rem; text-align: center;">
+                            <table class="table is-narrow is-bordered has-text-centered" style="font-size: 0.9rem; margin: 0 auto; max-width: 680px;">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th colspan="3">Baselines</th>
+                                        <th><strong>Ours</strong></th>
+                                    </tr>
+                                    <tr>
+                                        <th><strong>Task</strong></th>
+                                        <th>Single-view with wrist</th>
+                                        <th>ReCamMaster</th>
+                                        <th>TrajCrafter</th>
+                                        <th><strong>Embody4D</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>T1 (Grapes→Bowl)</td><td>5/10</td><td>4/10</td><td>6/10</td><td><strong>8/10</strong></td></tr>
+                                    <tr><td>T2 (Grapes→Plate)</td><td>5/10</td><td>5/10</td><td>6/10</td><td><strong>8/10</strong></td></tr>
+                                    <tr><td>T3 (Mangoes→Bowl)</td><td>4/10</td><td>2/10</td><td>4/10</td><td><strong>9/10</strong></td></tr>
+                                    <tr><td>T4 (Lemons→Bowl unseen)</td><td>1/10</td><td>2/10</td><td>0/10</td><td><strong>6/10</strong></td></tr>
+                                    <tr><td>T5 (Bananas→Plate unseen)</td><td>1/10</td><td>2/10</td><td>7/10</td><td><strong>6/10</strong></td></tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr style="border-top: 2px solid #ddd;">
+                                        <td><strong>Success Rate (SR)</strong></td>
+                                        <td>32%</td>
+                                        <td>30%</td>
+                                        <td>46%</td>
+                                        <td><strong>74%</strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wrist vs. Without-Wrist Comparison -->
+            <div class="box abstract-box" style="margin-top: 1rem;">
+                <figure style="margin: 0;">
+                    <div class="columns is-multiline" style="margin-bottom: 0;">
+                    <div class="column is-half">
+                        <img src="demo//png/withoutwrist.png" alt="Without wrist" style="width: 100%; height: auto;">
+                    </div>
+                    <div class="column is-half">
+                        <img src="demo//png/withwrist.png" alt="With wrist" style="width: 100%; height: auto;">
+                    </div>
+                    </div>
+                    <figcaption class="has-text-justified" style="margin-top: 0.75rem; margin-bottom: 0; font-size: 0.9rem; color: #555; line-height: 1.6; text-align: justify;">
+                        <strong>Figure: Comparison of successful novel-view synthesis</strong> counts on seen tasks and OOD unseen tasks. The left image is a comparison of the results from a third-person perspective combined with other generative models that create new perspectives. The right image is a comparison of results from a third-person perspective and a wrist perspective, along with new perspectives generated by other models.
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="box" style="margin-bottom: 1rem; padding: 0.75rem;">
+                <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Input</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/input2.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">ReCamMaster</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/recammaster2.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">TrajCrafter</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/traj2.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Ours</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/ours2.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </div>
+            <p class="has-text-centered" style="font-size: 0.7rem; color: #666; font-style: italic; margin-top: -0.25rem; margin-bottom: 0.75rem;">
+                *Recammaster is designed for controlling the lens movement of camera external parameters, making it difficult to achieve fixed-angle generation, which leads to inconsistent parallax and a decrease in the overall results.
+            </p>
+            <div class="box" style="margin-bottom: 1rem; padding: 0.75rem;">
+                <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Input</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/input1.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">ReCamMaster</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/recammaster1.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">TrajCrafter</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/traj1.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Ours</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/ours1.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 视频循环结束时暂停1秒再重播 -->
+    <!-- 统一 Video Comparison Gallery 内所有视频播放时长 -->
+    <script>
+        (function() {
+            var gallery = document.getElementById('video-comparison-gallery');
+            if (!gallery) return;
+            var videos = gallery.querySelectorAll('video');
+            if (videos.length === 0) return;
+            var n = videos.length;
+            var loaded = 0;
+            var durations = [];
+            function checkReady() {
+                if (loaded !== n) return;
+                var minDuration = Math.min.apply(null, durations);
+                if (!isFinite(minDuration) || minDuration <= 0) return;
+                for (var i = 0; i < videos.length; i++) {
+                    var d = videos[i].duration;
+                    if (d > 0) videos[i].playbackRate = d / minDuration;
+                }
+            }
+            for (var i = 0; i < videos.length; i++) {
+                (function(idx) {
+                    var v = videos[idx];
+                    function onMeta() {
+                        durations[idx] = v.duration;
+                        loaded++;
+                        checkReady();
+                    }
+                    if (v.readyState >= 1) {
+                        durations[idx] = v.duration;
+                        loaded++;
+                        checkReady();
+                    } else {
+                        v.addEventListener('loadedmetadata', onMeta);
+                    }
+                })(i);
+            }
+        })();
+    </script>
+    <script>
+        document.querySelectorAll('video').forEach(function(v) {
+            v.addEventListener('ended', function() {
+                var video = this;
+                setTimeout(function() { video.play(); }, 1000);
+            });
+        });
+    </script>
+</body>
+</demo/>
