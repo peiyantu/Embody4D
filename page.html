@@ -158,7 +158,7 @@
     <section class="section" style="padding-top: 1.5rem; padding-bottom: 0.5rem;">
         <div class="container is-max-desktop">
             <figure class="image">
-                <img src="demo//png/teaser.png" alt="Embody4D teaser" style="width: 100%; height: auto; display: block;">
+                <img src="demo//png/teaser.PNG" alt="Embody4D teaser" style="width: 100%; height: auto; display: block;">
             </figure>
         </div>
     </section>
@@ -202,7 +202,7 @@
                         <figure class="image">
                             <img src="demo//png/pipeline.png" alt="Embody4D pipeline" style="width: 100%; height: auto;">
                             <figcaption style="margin-top: 0.75rem; font-size: 0.9rem; color: #555; line-height: 1.6;">
-                                <strong>Figure: Overview of Embody4D.</strong> We construct paired embodied training videos in 3D via compositional synthesis and process them with a "warp-then-inpaint" architecture. The source video is reconstructed into a point cloud and projected to the target view to produce warped RGB plus occupancy masks; these are concatenated and passed to a confidence module that adaptively injects different noise levels. Finally, a backbone model with an interaction-aware block outputs the target-view video with highly consistent manipulation details.
+                                <strong>Figure: Overview of Embody4D.</strong> We build paired embodied 4D training data through compositional synthesis and adopt a “warp-then-inpaint” framework for novel-view video generation. Given a source video, Embody4D reconstructs dynamic geometry, warps RGB/masks to target views, and generates the final video with confidence-aware modulation and interaction-aware attention.
                             </figcaption>
                         </figure>
                     </div>
