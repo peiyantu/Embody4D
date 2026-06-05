@@ -131,6 +131,48 @@
             font-size: 1.15em;
             font-weight: 600;
         }
+
+        /* Simulation Experiments */
+        .sim-math {
+            font-family: 'Castoro', serif;
+            font-style: italic;
+            font-weight: normal;
+        }
+        .sim-caption {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            flex-wrap: nowrap;
+            font-family: 'Noto Sans', 'Google Sans', sans-serif;
+            font-weight: 600;
+            font-size: 1rem !important;
+        }
+        .sim-caption .sim-brand {
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+        .sim-status-icon {
+            height: 1.25rem;
+            width: auto;
+            vertical-align: middle;
+            flex-shrink: 0;
+        }
+        .realrob-task-caption {
+            font-family: 'Noto Sans', 'Google Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+            margin: 0.75rem 0;
+            line-height: 1.5;
+        }
+        .libero-result-highlight {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            font-weight: 500;
+            color: #222;
+        }
     </style>
 </head>
 
@@ -670,51 +712,194 @@
                     For simulation experiments, we use Embody4D to generate view-randomized training videos, while evaluating policies from a fixed third-person camera. This setting isolates the effect of synthetic view augmentation on cross-view generalization and policy robustness.
                 </p>
                 <p style="margin-top: 0.75rem;">
-                    For real-world experiments, we introduce an additional Embody4D-generated third-person view during training. By expanding the observational coverage of robot-object interactions, this setting evaluates whether Embody4D can improve spatial reasoning, interaction understanding, and manipulation performance.
+                    For real-world experiments, we introduce an additional Embody4D-generated third-person view during training and inference. By expanding the observational coverage of robot-object interactions, this setting evaluates whether Embody4D can improve spatial reasoning, interaction understanding, and manipulation performance.
                 </p>
+                <figure class="image" style="margin: 1rem 0 0;">
+                    <img src="demo//infer/pipeline.png" alt="Embody4D application pipeline" style="width: 100%; height: auto; display: block;">
+                </figure>
             </div>
 
             <!-- Simulation Experiments -->
+            <div id="sim-experiments-gallery">
             <div class="content" style="margin-top: 2rem; margin-bottom: 0.75rem;">
                 <h3 class="title is-4">Simulation Experiments</h3>
             </div>
 
-            <div class="box" style="margin-bottom: 1.5rem; padding: 0.75rem;">
+            <!-- Input / Output row (alternating) -->
+            <div class="box" style="margin-bottom: 1rem; padding: 0.75rem;">
                 <div class="columns is-variable is-1" style="margin-bottom: 0;">
                     <div class="column is-one-quarter">
-                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Input</h3>
-                        <video controls autoplay muted loop width="100%">
-                            <source src="demo//libero/input1.mp4" type="video/mp4">
+                        <h3 class="title is-5 has-text-centered" style="margin-bottom: 0.5rem;">Input</h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//sim/in1.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
                     <div class="column is-one-quarter">
-                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Output</h3>
-                        <video controls autoplay muted loop width="100%">
-                            <source src="demo//libero/output1.mp4" type="video/mp4">
+                        <h3 class="title is-5 has-text-centered" style="margin-bottom: 0.5rem;">Output</h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//sim/out1.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
                     <div class="column is-one-quarter">
-                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Input</h3>
-                        <video controls autoplay muted loop width="100%">
-                            <source src="demo//libero/input2.mp4" type="video/mp4">
+                        <h3 class="title is-5 has-text-centered" style="margin-bottom: 0.5rem;">Input</h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//sim/in3.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
                     <div class="column is-one-quarter">
-                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Output</h3>
-                        <video controls autoplay muted loop width="100%">
-                            <source src="demo//libero/output2.mp4" type="video/mp4">
+                        <h3 class="title is-5 has-text-centered" style="margin-bottom: 0.5rem;">Output</h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//sim/out3.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
                 </div>
             </div>
 
+            <!-- Fail / Success row (alternating) -->
+            <div class="box" style="margin-bottom: 1.5rem; padding: 0.75rem;">
+                <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                            <span class="sim-math">π<sub>0.5</sub></span>
+                            <img src="demo//sim/fail.png" alt="fail" class="sim-status-icon">
+                        </h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//sim/fail1.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                            <span class="sim-math">π<sub>0.5</sub></span>
+                            <span>+</span>
+                            <span class="sim-brand">Embody4D</span>
+                            <img src="demo//sim/succ.png" alt="success" class="sim-status-icon">
+                        </h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//sim/succ1.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                            <span class="sim-math">π<sub>0.5</sub></span>
+                            <img src="demo//sim/fail.png" alt="fail" class="sim-status-icon">
+                        </h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//sim/fail2.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                            <span class="sim-math">π<sub>0.5</sub></span>
+                            <span>+</span>
+                            <span class="sim-brand">Embody4D</span>
+                            <img src="demo//sim/succ.png" alt="success" class="sim-status-icon">
+                        </h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//sim/succ2.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LIBERO-Plus results -->
+            <div class="box abstract-box" style="margin-bottom: 1.5rem; padding: 1rem;">
+                <p style="margin-bottom: 1rem; font-size: 0.95rem;">
+                    We evaluate <span class="sim-math">π<sub>0.5</sub></span> under LIBERO-Plus perturbation settings and compare training on the original LIBERO data with training using Embody4D-generated random-view samples and matched real multi-view data.
+                </p>
+                <div class="columns is-vcentered" style="margin-bottom: 0;">
+                    <div class="column is-5">
+                        <figure class="image" style="margin: 0;">
+                            <img src="demo//libero/result.png" alt="LIBERO-Plus evaluation results" style="width: 100%; height: auto; display: block;">
+                        </figure>
+                    </div>
+                    <div class="column is-7">
+                        <p class="libero-result-highlight has-text-justified" style="margin: 0;">
+                            On LIBERO-Plus, the Camera score increases from <span class="highlight-rate">64.8%</span> <span class="highlight-rate">to</span> <span class="highlight-rate">86.8%</span>, indicating stronger viewpoint generalization.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            </div>
+
             <!-- Real World Experiments -->
             <div class="content" style="margin-top: 2.5rem; margin-bottom: 0.75rem;">
                 <h3 class="title is-4">Real World Experiments</h3>
+            </div>
+
+            <div class="box" style="margin-bottom: 1rem; padding: 0.75rem;">
+                <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Input</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/input2.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">ReCamMaster</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/recammaster2.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">TrajCrafter</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/traj2.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Ours</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/ours2.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </div>
+            <p class="has-text-centered" style="font-size: 0.7rem; color: #666; font-style: italic; margin-top: -0.25rem; margin-bottom: 0.75rem;">
+                *Recammaster is designed for controlling the lens movement of camera external parameters, making it difficult to achieve fixed-angle generation, which leads to inconsistent parallax and a decrease in the overall results.
+            </p>
+            <div class="box" style="margin-bottom: 1.5rem; padding: 0.75rem;">
+                <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Input</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/input1.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">ReCamMaster</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/recammaster1.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">TrajCrafter</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/traj1.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Ours</h3>
+                        <video controls autoplay muted loop width="100%">
+                            <source src="demo//realrob/ours1.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
             </div>
 
             <div class="columns is-multiline">
@@ -777,68 +962,174 @@
                     </figcaption>
                 </figure>
             </div>
-            <div class="box" style="margin-bottom: 1rem; padding: 0.75rem;">
+
+            <!-- Real-robot manipulation demos -->
+            <div id="realrob-demo-gallery">
+            <div class="box" style="margin-top: 2rem; margin-bottom: 0; padding: 0.75rem;">
                 <div class="columns is-variable is-1" style="margin-bottom: 0;">
                     <div class="column is-one-quarter">
-                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Input</h3>
-                        <video controls autoplay muted loop width="100%">
-                            <source src="demo//realrob/input2.mp4" type="video/mp4">
+                        <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                            <span class="sim-math">π<sub>0.5</sub></span>
+                            <img src="demo//sim/fail.png" alt="fail" class="sim-status-icon">
+                        </h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//realrob/demo/put_the_lemons_from_the_table_into_the_bowl_input.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
                     <div class="column is-one-quarter">
-                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">ReCamMaster</h3>
-                        <video controls autoplay muted loop width="100%">
-                            <source src="demo//realrob/recammaster2.mp4" type="video/mp4">
+                        <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                            <span class="sim-math">π<sub>0.5</sub></span>
+                            <span>+</span>
+                            <span class="sim-brand">TrajCrafter</span>
+                            <img src="demo//sim/fail.png" alt="fail" class="sim-status-icon">
+                        </h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//realrob/demo/put_the_lemons_from_the_table_into_the_bowl_trajcrafter.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
                     <div class="column is-one-quarter">
-                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">TrajCrafter</h3>
-                        <video controls autoplay muted loop width="100%">
-                            <source src="demo//realrob/traj2.mp4" type="video/mp4">
+                        <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                            <span class="sim-math">π<sub>0.5</sub></span>
+                            <span>+</span>
+                            <span class="sim-brand">Recammaster</span>
+                            <img src="demo//sim/fail.png" alt="fail" class="sim-status-icon">
+                        </h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//realrob/demo/put_the_lemons_from_the_table_into_the_bowl_recammaster.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
                     <div class="column is-one-quarter">
-                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Ours</h3>
-                        <video controls autoplay muted loop width="100%">
-                            <source src="demo//realrob/ours2.mp4" type="video/mp4">
+                        <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                            <span class="sim-math">π<sub>0.5</sub></span>
+                            <span>+</span>
+                            <span class="sim-brand">Embody4D</span>
+                            <img src="demo//sim/succ.png" alt="success" class="sim-status-icon">
+                        </h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//realrob/demo/put_the_lemons_from_the_table_into_the_bowl_embody4d.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                <p class="realrob-task-caption">put the lemons from the table into the bowl</p>
+                <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                    <div class="column is-one-quarter">
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//realrob/demo/slide10_uncaptioned_row2_input.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//realrob/demo/slide10_uncaptioned_row2_trajcrafter.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//realrob/demo/slide10_uncaptioned_row2_recammaster.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//realrob/demo/slide10_uncaptioned_row2_embody4d.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
                 </div>
             </div>
-            <p class="has-text-centered" style="font-size: 0.7rem; color: #666; font-style: italic; margin-top: -0.25rem; margin-bottom: 0.75rem;">
-                *Recammaster is designed for controlling the lens movement of camera external parameters, making it difficult to achieve fixed-angle generation, which leads to inconsistent parallax and a decrease in the overall results.
-            </p>
-            <div class="box" style="margin-bottom: 1rem; padding: 0.75rem;">
+
+            <div class="box" style="margin-bottom: 1.5rem; padding: 0.75rem;">
                 <div class="columns is-variable is-1" style="margin-bottom: 0;">
                     <div class="column is-one-quarter">
-                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Input</h3>
-                        <video controls autoplay muted loop width="100%">
-                            <source src="demo//realrob/input1.mp4" type="video/mp4">
+                        <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                            <span class="sim-math">π<sub>0.5</sub></span>
+                            <img src="demo//sim/fail.png" alt="fail" class="sim-status-icon">
+                        </h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//realrob/demo/put_the_mangoes_from_the_table_into_the_bowl_input.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
                     <div class="column is-one-quarter">
-                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">ReCamMaster</h3>
-                        <video controls autoplay muted loop width="100%">
-                            <source src="demo//realrob/recammaster1.mp4" type="video/mp4">
+                        <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                            <span class="sim-math">π<sub>0.5</sub></span>
+                            <span>+</span>
+                            <span class="sim-brand">TrajCrafter</span>
+                            <img src="demo//sim/fail.png" alt="fail" class="sim-status-icon">
+                        </h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//realrob/demo/put_the_mangoes_from_the_table_into_the_bowl_trajcrafter.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
                     <div class="column is-one-quarter">
-                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">TrajCrafter</h3>
-                        <video controls autoplay muted loop width="100%">
-                            <source src="demo//realrob/traj1.mp4" type="video/mp4">
+                        <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                            <span class="sim-math">π<sub>0.5</sub></span>
+                            <span>+</span>
+                            <span class="sim-brand">Recammaster</span>
+                            <img src="demo//sim/fail.png" alt="fail" class="sim-status-icon">
+                        </h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//realrob/demo/put_the_mangoes_from_the_table_into_the_bowl_recammaster.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
                     <div class="column is-one-quarter">
-                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Ours</h3>
-                        <video controls autoplay muted loop width="100%">
-                            <source src="demo//realrob/ours1.mp4" type="video/mp4">
+                        <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                            <span class="sim-math">π<sub>0.5</sub></span>
+                            <span>+</span>
+                            <span class="sim-brand">Embody4D</span>
+                            <img src="demo//sim/succ.png" alt="success" class="sim-status-icon">
+                        </h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//realrob/demo/put_the_mangoes_from_the_table_into_the_bowl_embody4d.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                <p class="realrob-task-caption">put the mangoes from the table into the bowl</p>
+            </div>
+            </div>
+
+            <!-- VLA Inference -->
+            <div class="content" style="margin-top: 2.5rem; margin-bottom: 0.75rem;">
+                <h3 class="title is-4">VLA Inference</h3>
+            </div>
+            <div class="box abstract-box" style="margin-top: 1rem;">
+                <figure style="margin: 0;">
+                    <img src="demo//infer/teaser.png" alt="Application of Embody4D during VLA inference" style="width: 100%; height: auto; display: block;">
+                    <figcaption class="has-text-justified" style="margin-top: 0.75rem; margin-bottom: 0; font-size: 0.9rem; color: #555; line-height: 1.6; text-align: justify;">
+                        <strong>Application of Embody4D during VLA inference.</strong> In addition to video-to-video generation, Embody4D supports image-to-image novel-view generation during VLA inference, providing complementary visual observations that can reveal occluded objects and assist the VLA in generating more reliable actions.
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div id="infer-experiments-gallery" class="box" style="margin-top: 1rem; margin-bottom: 1.5rem; padding: 0.75rem;">
+                <div class="columns is-variable is-2" style="margin-bottom: 0;">
+                    <div class="column is-half">
+                        <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                            <span class="sim-math">π<sub>0.5</sub></span>
+                            <img src="demo//sim/fail.png" alt="fail" class="sim-status-icon">
+                        </h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//infer/fail.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-half">
+                        <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                            <span class="sim-math">π<sub>0.5</sub></span>
+                            <span>+</span>
+                            <span class="sim-brand">Embody4D</span>
+                            <img src="demo//sim/succ.png" alt="success" class="sim-status-icon">
+                        </h3>
+                        <video controls autoplay muted loop playsinline width="100%">
+                            <source src="demo//infer/succ.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -847,26 +1138,50 @@
         </div>
     </section>
 
-    <!-- 视频循环结束时暂停1秒再重播 -->
-    <!-- 统一 Video Comparison Gallery 内所有视频播放时长 -->
+    <!-- 统一各 Gallery 内视频播放时长；loop 视频无缝循环 -->
     <script>
-        (function() {
-            var gallery = document.getElementById('video-comparison-gallery');
+        function syncVideoGallery(containerId, syncLoop) {
+            var gallery = document.getElementById(containerId);
             if (!gallery) return;
             var videos = gallery.querySelectorAll('video');
             if (videos.length === 0) return;
             var n = videos.length;
             var loaded = 0;
             var durations = [];
+
             function checkReady() {
                 if (loaded !== n) return;
                 var minDuration = Math.min.apply(null, durations);
                 if (!isFinite(minDuration) || minDuration <= 0) return;
                 for (var i = 0; i < videos.length; i++) {
-                    var d = videos[i].duration;
-                    if (d > 0) videos[i].playbackRate = d / minDuration;
+                    var v = videos[i];
+                    var d = v.duration;
+                    if (d > 0) v.playbackRate = d / minDuration;
+                }
+                if (syncLoop) {
+                    videos.forEach(function(v) { v.loop = false; });
+                    videos.forEach(function(v) { v.currentTime = 0; });
+                    Promise.all(Array.prototype.map.call(videos, function(v) {
+                        return v.play().catch(function() {});
+                    }));
+                    var restarting = false;
+                    function syncRestart() {
+                        if (restarting) return;
+                        restarting = true;
+                        videos.forEach(function(vid) {
+                            vid.pause();
+                            vid.currentTime = 0;
+                        });
+                        Promise.all(Array.prototype.map.call(videos, function(vid) {
+                            return vid.play().catch(function() {});
+                        })).finally(function() { restarting = false; });
+                    }
+                    videos.forEach(function(v) {
+                        v.addEventListener('ended', syncRestart);
+                    });
                 }
             }
+
             for (var i = 0; i < videos.length; i++) {
                 (function(idx) {
                     var v = videos[idx];
@@ -884,10 +1199,18 @@
                     }
                 })(i);
             }
-        })();
+        }
+        syncVideoGallery('video-comparison-gallery', false);
+        syncVideoGallery('sim-experiments-gallery', true);
+        syncVideoGallery('realrob-demo-gallery', true);
+        syncVideoGallery('infer-experiments-gallery', true);
     </script>
     <script>
         document.querySelectorAll('video').forEach(function(v) {
+            if (v.loop) return;
+            if (v.closest('#sim-experiments-gallery')) return;
+            if (v.closest('#realrob-demo-gallery')) return;
+            if (v.closest('#infer-experiments-gallery')) return;
             v.addEventListener('ended', function() {
                 var video = this;
                 setTimeout(function() { video.play(); }, 1000);
