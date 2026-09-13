@@ -2,10 +2,10 @@
 <demo/>
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Embody4D: A Generalist Data Engine for Embodied 4D World Modeling">
+    <meta name="description" content="Embody4D: Generative Data Engine for Embodied 4D World Modeling">
     <meta name="keywords" content="WorldModel, 4DGeneration, EmbodiedAI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Embody4D: A Generalist Data Engine for Embodied 4D World Modeling</title>
+    <title>Embody4D: Generative Data Engine for Embodied 4D World Modeling</title>
     
     <link rel="icon" type="image/jpeg" href="demo//png/logo.JPG">
     <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
@@ -173,6 +173,48 @@
             font-weight: 500;
             color: #222;
         }
+
+        /* Dataset and latent-expert media blocks */
+        .dataset-video-grid .column,
+        .latent-expert-video .column {
+            display: flex;
+            flex-direction: column;
+        }
+        .dataset-video-grid video,
+        .latent-expert-video video {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: #101010;
+            border-radius: 0.25rem;
+        }
+        .dataset-video-grid video {
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .dataset-video-label {
+            font-size: 0.95rem;
+            color: #444;
+            margin-bottom: 0.45rem !important;
+        }
+        .media-caption {
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.6;
+        }
+        .latent-expert-architecture {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.35rem;
+        }
+        #dataset-curation,
+        #latent-expert {
+            scroll-margin-top: 1rem;
+        }
     </style>
 </head>
 
@@ -187,7 +229,7 @@
                             <span class="world-gen-title">Embody4D</span>
                         </h1>
                         <h2 class="subtitle is-3 publication-subtitle" style="color: white;">
-                            A Generalist Data Engine for Embodied<br>
+                            Generative Data Engine for Embodied<br>
                             4D World Modeling
                         </h2>
                     </div>
@@ -247,6 +289,44 @@
                                 <strong>Figure: Overview of Embody4D.</strong> We build paired embodied 4D training data through compositional synthesis and adopt a “warp-then-inpaint” framework for novel-view video generation. Given a source video, Embody4D reconstructs dynamic geometry, warps RGB/masks to target views, and generates the final video with confidence-aware modulation and interaction-aware attention.
                             </figcaption>
                         </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latent expert flowchart and video from the supplementary material -->
+    <section class="section" id="latent-expert">
+        <div class="container is-max-desktop">
+            <div class="content">
+                <h2 class="title is-3">
+                    <img src="demo//png/costumer.png" alt="Latent expert icon" style="height: 2.1rem; width: auto; vertical-align: middle; margin-right: 0.5rem;">
+                    Latent Expert Modulation
+                </h2>
+            </div>
+
+            <div class="box has-text-justified abstract-box">
+                <p>
+                    Our latent expert uses the 3D U-Net encoder–decoder shown below. Its routing map separates the warped latent into three clear regions.
+                </p>
+
+                <figure style="margin: 1.25rem 0 0;">
+                    <img class="latent-expert-architecture" src="demo//latent-expert/architecture-clean.png" alt="Latent expert encoder-decoder flowchart">
+                    <figcaption class="media-caption">
+                        <strong>Latent expert U-Net architecture.</strong> The model receives the concatenated warped latent and mask and predicts a latent correction for the downstream generation block.
+                    </figcaption>
+                </figure>
+
+                <div class="columns is-variable is-4 latent-expert-video" style="margin-top: 1.25rem; margin-bottom: 0;">
+                    <div class="column is-full">
+                        <h3 class="title is-5" style="margin-bottom: 0.5rem;">Expert routing visualization</h3>
+                        <video controls autoplay muted loop playsinline preload="metadata">
+                            <source src="demo//latent-expert/expert-routing.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <p class="media-caption" style="margin-top: 0;">
+                            The routing is clearly divided into three regions, and the estimated result remains close to the ground truth with low error.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -736,7 +816,7 @@
                         </video>
                     </div>
                     <div class="column is-one-quarter">
-                        <h3 class="title is-5 has-text-centered" style="margin-bottom: 0.5rem;">Output</h3>
+                        <h3 class="title is-5 has-text-centered" style="margin-bottom: 0.5rem;">Gen</h3>
                         <video controls autoplay muted loop playsinline width="100%">
                             <source src="demo//sim/out1.mp4" type="video/mp4">
                             Your browser does not support the video tag.
@@ -750,7 +830,7 @@
                         </video>
                     </div>
                     <div class="column is-one-quarter">
-                        <h3 class="title is-5 has-text-centered" style="margin-bottom: 0.5rem;">Output</h3>
+                        <h3 class="title is-5 has-text-centered" style="margin-bottom: 0.5rem;">Gen</h3>
                         <video controls autoplay muted loop playsinline width="100%">
                             <source src="demo//sim/out3.mp4" type="video/mp4">
                             Your browser does not support the video tag.
@@ -906,19 +986,14 @@
                 <div class="column is-full">
                     <div class="box has-text-justified abstract-box">
                         <p>
-                            Embody4D acts as a scalable data engine for downstream robotic manipulation and planning. Leveraging its novel-view synthesis capability, the success rate of π0.5 improves dramatically from <span class="highlight-rate">32% to 74%</span>, with particularly strong generalization to out-of-distribution (OOD) tasks.
+                            Embody4D acts as a scalable data engine for downstream robotic manipulation and planning. Leveraging its novel-view synthesis capability, the success rate of π0.5 improves dramatically from <span class="highlight-rate">34.4% to 67.8%</span>, with particularly strong generalization to out-of-distribution (OOD) tasks.
                         </p>
                         <div class="table-container" style="margin-top: 1rem; text-align: center;">
                             <table class="table is-narrow is-bordered has-text-centered" style="font-size: 0.9rem; margin: 0 auto; max-width: 680px;">
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <th colspan="3">Baselines</th>
-                                        <th><strong>Ours</strong></th>
-                                    </tr>
-                                    <tr>
                                         <th><strong>Task</strong></th>
-                                        <th>Single-view with wrist</th>
+                                        <th>Single-view</th>
                                         <th>ReCamMaster</th>
                                         <th>TrajCrafter</th>
                                         <th><strong>Embody4D</strong></th>
@@ -928,16 +1003,20 @@
                                     <tr><td>T1 (Grapes→Bowl)</td><td>5/10</td><td>4/10</td><td>6/10</td><td><strong>8/10</strong></td></tr>
                                     <tr><td>T2 (Grapes→Plate)</td><td>5/10</td><td>5/10</td><td>6/10</td><td><strong>8/10</strong></td></tr>
                                     <tr><td>T3 (Mangoes→Bowl)</td><td>4/10</td><td>2/10</td><td>4/10</td><td><strong>9/10</strong></td></tr>
-                                    <tr><td>T4 (Lemons→Bowl unseen)</td><td>1/10</td><td>2/10</td><td>0/10</td><td><strong>6/10</strong></td></tr>
-                                    <tr><td>T5 (Bananas→Plate unseen)</td><td>1/10</td><td>2/10</td><td>7/10</td><td><strong>6/10</strong></td></tr>
+                                    <tr><td>T4 (Lemons→Bowl)</td><td>1/10</td><td>2/10</td><td>0/10</td><td><strong>6/10</strong></td></tr>
+                                    <tr><td>T5 (Bananas→Plate)</td><td>1/10</td><td>2/10</td><td>7/10</td><td><strong>6/10</strong></td></tr>
+                                    <tr><td>T6 (Stack 2 Blocks)</td><td>7/10</td><td>7/10</td><td>8/10</td><td><strong>9/10</strong></td></tr>
+                                    <tr><td>T7 (Stack 3 Blocks)</td><td>6/10</td><td>5/10</td><td>7/10</td><td><strong>8/10</strong></td></tr>
+                                    <tr><td>T8 (Stack 4 Blocks)</td><td>2/10</td><td>2/10</td><td>4/10</td><td><strong>5/10</strong></td></tr>
+                                    <tr><td>T9 (Stack 5 Blocks)</td><td>0/10</td><td>0/10</td><td>0/10</td><td><strong>2/10</strong></td></tr>
                                 </tbody>
                                 <tfoot>
                                     <tr style="border-top: 2px solid #ddd;">
-                                        <td><strong>Success Rate (SR)</strong></td>
-                                        <td>32%</td>
-                                        <td>30%</td>
-                                        <td>46%</td>
-                                        <td><strong>74%</strong></td>
+                                        <td><strong>SR</strong></td>
+                                        <td>34.4%</td>
+                                        <td>32.2%</td>
+                                        <td>46.7%</td>
+                                        <td><strong>67.8%</strong></td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -958,7 +1037,7 @@
                     </div>
                     </div>
                     <figcaption class="has-text-justified" style="margin-top: 0.75rem; margin-bottom: 0; font-size: 0.9rem; color: #555; line-height: 1.6; text-align: justify;">
-                        <strong>Figure: Comparison of successful novel-view synthesis</strong> counts on seen tasks and OOD unseen tasks. The left image is a comparison of the results from a third-person perspective combined with other generative models that create new perspectives. The right image is a comparison of results from a third-person perspective and a wrist perspective, along with new perspectives generated by other models.
+                        <strong>Figure: Comparison of successful novel-view synthesis（T1~T5）</strong> counts on seen tasks and OOD unseen tasks. The left image is a comparison of the results from a third-person perspective combined with other generative models that create new perspectives. The right image is a comparison of results from a third-person perspective and a wrist perspective, along with new perspectives generated by other models.
                     </figcaption>
                 </figure>
             </div>
@@ -1094,6 +1173,123 @@
                 </div>
                 <p class="realrob-task-caption">put the mangoes from the table into the bowl</p>
             </div>
+
+            <!-- Stack-task rollout comparison: two tasks per row, two videos per task -->
+            <div id="stack-rollout-gallery" class="box" style="margin-top: 1rem; margin-bottom: 1.5rem; padding: 0.75rem;">
+                <div class="columns is-multiline is-variable is-2" style="margin-bottom: 0;">
+                    <div class="column is-half">
+                        <p class="realrob-task-caption" style="margin-top: 0;">Stack 2 Blocks</p>
+                        <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                            <div class="column is-half">
+                                <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                                    <span class="sim-math">π<sub>0.5</sub></span>
+                                    <img src="demo//sim/fail.png" alt="failure" class="sim-status-icon">
+                                </h3>
+                                <video controls autoplay muted loop playsinline width="100%" data-playback-rate="4" data-sync-independent="true">
+                                    <source src="demo//realrob/demo/stack2_pi05.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                            <div class="column is-half">
+                                <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                                    <span class="sim-math">π<sub>0.5</sub></span>
+                                    <span>+</span>
+                                    <span class="sim-brand">Embody4D</span>
+                                    <img src="demo//sim/succ.png" alt="success" class="sim-status-icon">
+                                </h3>
+                                <video controls autoplay muted loop playsinline width="100%" data-playback-rate="4" data-sync-independent="true">
+                                    <source src="demo//realrob/demo/stack2_pi05_embody4d.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-half">
+                        <p class="realrob-task-caption" style="margin-top: 0;">Stack 3 Blocks</p>
+                        <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                            <div class="column is-half">
+                                <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                                    <span class="sim-math">π<sub>0.5</sub></span>
+                                    <img src="demo//sim/fail.png" alt="failure" class="sim-status-icon">
+                                </h3>
+                                <video controls autoplay muted loop playsinline width="100%" data-playback-rate="4" data-sync-independent="true">
+                                    <source src="demo//realrob/demo/stack3_pi05.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                            <div class="column is-half">
+                                <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                                    <span class="sim-math">π<sub>0.5</sub></span>
+                                    <span>+</span>
+                                    <span class="sim-brand">Embody4D</span>
+                                    <img src="demo//sim/succ.png" alt="success" class="sim-status-icon">
+                                </h3>
+                                <video controls autoplay muted loop playsinline width="100%" data-playback-rate="4" data-sync-independent="true">
+                                    <source src="demo//realrob/demo/stack3_pi05_embody4d.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-half" style="transform: translateY(-0.75rem);">
+                        <p class="realrob-task-caption" style="margin-top: 0;">Stack 4 Blocks</p>
+                        <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                            <div class="column is-half">
+                                <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                                    <span class="sim-math">π<sub>0.5</sub></span>
+                                    <img src="demo//sim/fail.png" alt="failure" class="sim-status-icon">
+                                </h3>
+                                <video controls autoplay muted loop playsinline width="100%" data-playback-rate="4" data-sync-independent="true">
+                                    <source src="demo//realrob/demo/stack4_pi05.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                            <div class="column is-half">
+                                <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                                    <span class="sim-math">π<sub>0.5</sub></span>
+                                    <span>+</span>
+                                    <span class="sim-brand">Embody4D</span>
+                                    <img src="demo//sim/succ.png" alt="success" class="sim-status-icon">
+                                </h3>
+                                <video controls autoplay muted loop playsinline width="100%" data-playback-rate="4" data-sync-independent="true">
+                                    <source src="demo//realrob/demo/stack4_pi05_embody4d.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-half" style="transform: translateY(-0.75rem);">
+                        <p class="realrob-task-caption" style="margin-top: 0;">Stack 5 Blocks</p>
+                        <div class="columns is-variable is-1" style="margin-bottom: 0;">
+                            <div class="column is-half">
+                                <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                                    <span class="sim-math">π<sub>0.5</sub></span>
+                                    <img src="demo//sim/fail.png" alt="failure" class="sim-status-icon">
+                                </h3>
+                                <video controls autoplay muted loop playsinline width="100%" data-playback-rate="4" data-sync-independent="true">
+                                    <source src="demo//realrob/demo/stack5_pi05.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                            <div class="column is-half">
+                                <h3 class="title is-5 has-text-centered sim-caption" style="margin-bottom: 0.5rem;">
+                                    <span class="sim-math">π<sub>0.5</sub></span>
+                                    <span>+</span>
+                                    <span class="sim-brand">Embody4D</span>
+                                    <img src="demo//sim/succ.png" alt="success" class="sim-status-icon">
+                                </h3>
+                                <video controls autoplay muted loop playsinline width="100%" data-playback-rate="4" data-sync-independent="true">
+                                    <source src="demo//realrob/demo/stack5_pi05_embody4d.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </div>
 
             <!-- VLA Inference -->
@@ -1138,16 +1334,79 @@
         </div>
     </section>
 
+    <!-- Dataset curation videos from the supplementary material -->
+    <section class="section" id="dataset-curation">
+        <div class="container is-max-desktop">
+            <div class="content">
+                <h2 class="title is-4">
+                    <img src="demo//png/server-control.png" alt="Dataset curation icon" style="height: 2.1rem; width: auto; vertical-align: middle; margin-right: 0.5rem;">
+                    Dataset Curation Videos
+                </h2>
+            </div>
+
+            <div class="box has-text-justified abstract-box">
+                <div class="columns is-multiline is-variable is-2 dataset-video-grid" style="margin-bottom: 0;">
+                    <div class="column is-half-tablet is-half-desktop">
+                        <video controls autoplay muted loop playsinline preload="metadata">
+                            <source src="demo//dataset/dataset-camera0-frame0186.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-half-tablet is-half-desktop">
+                        <video controls autoplay muted loop playsinline preload="metadata">
+                            <source src="demo//dataset/dataset-camera1-frame0226.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-half-tablet is-half-desktop">
+                        <video controls autoplay muted loop playsinline preload="metadata">
+                            <source src="demo//dataset/dataset-camera0-frame0151.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-half-tablet is-half-desktop">
+                        <video controls autoplay muted loop playsinline preload="metadata">
+                            <source src="demo//dataset/dataset-camera1-frame0191.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-half-tablet is-half-desktop">
+                        <video controls autoplay muted loop playsinline preload="metadata">
+                            <source src="demo//dataset/dataset-camera1-frame0324.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="column is-half-tablet is-half-desktop">
+                        <video controls autoplay muted loop playsinline preload="metadata">
+                            <source src="demo//dataset/dataset-camera0-frame0284.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                <p class="media-caption has-text-centered">
+                    <strong>Dataset construction examples.</strong> Varied robotic-arm foregrounds and 3D backgrounds produce diverse, 4D-consistent training data.
+                </p>
+            </div>
+        </div>
+    </section>
+
     <!-- 统一各 Gallery 内视频播放时长；loop 视频无缝循环 -->
     <script>
-        function syncVideoGallery(containerId, syncLoop) {
+        function syncVideoGallery(containerId, syncLoop, videoSelector) {
             var gallery = document.getElementById(containerId);
             if (!gallery) return;
-            var videos = gallery.querySelectorAll('video');
+            var videos = gallery.querySelectorAll(videoSelector || 'video');
             if (videos.length === 0) return;
             var n = videos.length;
             var loaded = 0;
             var durations = [];
+
+            function applyRequestedRate(video) {
+                var requestedRate = parseFloat(video.getAttribute('data-playback-rate'));
+                if (isFinite(requestedRate) && requestedRate > 0) {
+                    video.playbackRate = requestedRate;
+                }
+            }
 
             function checkReady() {
                 if (loaded !== n) return;
@@ -1156,7 +1415,12 @@
                 for (var i = 0; i < videos.length; i++) {
                     var v = videos[i];
                     var d = v.duration;
-                    if (d > 0) v.playbackRate = d / minDuration;
+                    var requestedRate = parseFloat(v.getAttribute('data-playback-rate'));
+                    if (isFinite(requestedRate) && requestedRate > 0) {
+                        v.playbackRate = requestedRate;
+                    } else if (d > 0) {
+                        v.playbackRate = d / minDuration;
+                    }
                 }
                 if (syncLoop) {
                     videos.forEach(function(v) { v.loop = false; });
@@ -1191,18 +1455,23 @@
                         checkReady();
                     }
                     if (v.readyState >= 1) {
+                        applyRequestedRate(v);
                         durations[idx] = v.duration;
                         loaded++;
                         checkReady();
                     } else {
-                        v.addEventListener('loadedmetadata', onMeta);
+                        v.addEventListener('loadedmetadata', function() {
+                            applyRequestedRate(v);
+                            onMeta();
+                        });
                     }
                 })(i);
             }
         }
         syncVideoGallery('video-comparison-gallery', false);
         syncVideoGallery('sim-experiments-gallery', true);
-        syncVideoGallery('realrob-demo-gallery', true);
+        syncVideoGallery('realrob-demo-gallery', true, 'video:not([data-sync-independent])');
+        syncVideoGallery('stack-rollout-gallery', false);
         syncVideoGallery('infer-experiments-gallery', true);
     </script>
     <script>
