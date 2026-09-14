@@ -215,6 +215,16 @@
         #latent-expert {
             scroll-margin-top: 1rem;
         }
+
+        /* Opening video: align with the page's other media blocks. */
+        .intro-video-card {
+            margin: 0;
+        }
+        .intro-video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
     </style>
 </head>
 
@@ -238,11 +248,14 @@
         </div>
     </section>
 
-    <!-- 顶部大图：整宽展示 -->
+    <!-- Opening video: placed immediately below the title for a strong first impression. -->
     <section class="section" style="padding-top: 1.5rem; padding-bottom: 0.5rem;">
         <div class="container is-max-desktop">
-            <figure class="image">
-                <img src="demo//png/teaser.PNG" alt="Embody4D teaser" style="width: 100%; height: auto; display: block;">
+            <figure class="intro-video-card">
+                <video class="intro-video" controls autoplay muted loop playsinline preload="metadata">
+                    <source src="demo/video/Embody4D.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </figure>
         </div>
     </section>
