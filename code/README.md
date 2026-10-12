@@ -76,11 +76,10 @@ weights/
   checkpoint/transformer/                         # released transformer shards
   latent_residual_weighted/final/latent_residual_mse.pt
   libero_checkpoint/transformer/                 # optional LIBERO checkpoint
-  blip2-opt-2.7b/                                # image captioning model
   Pi3X/model.safetensors                         # Pi3X checkpoint
 ```
 
-`weights/checkpoint/` and `weights/latent_residual_weighted/final/` are sufficient for the default project checkpoint plus optional latent experts. The `blip2-opt-2.7b` and Pi3X files are required by the default captioning and warp stages.
+`weights/checkpoint/` and `weights/latent_residual_weighted/final/` are sufficient for the default project checkpoint plus optional latent experts. The Pi3X file is included for the default warp stage.
 
 ### Base checkpoints
 
@@ -91,9 +90,10 @@ checkpoints/
   CogVideoX-Fun-V1.1-5b-InP/
   DepthCrafter/
   stable-video-diffusion-img2vid/
+  blip2-opt-2.7b/
 ```
 
-The `DepthCrafter` checkpoint is only needed when `WARP_BACKEND=depth`. Private datasets and training artifacts are not part of this release.
+The `blip2-opt-2.7b` and other base checkpoints are external model files and are not mirrored in this repository. The `DepthCrafter` checkpoint is only needed when `WARP_BACKEND=depth`. Private datasets and training artifacts are not part of this release.
 
 ## Quick start
 
@@ -102,7 +102,7 @@ Set paths for the downloaded models and run one video:
 ```bash
 VIDEO_PATH=/path/to/input.mp4 \
 PRETRAINED_ROOT=/path/to/checkpoints \
-BLIP_PATH=/path/to/weights/blip2-opt-2.7b \
+BLIP_PATH=/path/to/checkpoints/blip2-opt-2.7b \
 PI3_CKPT=/path/to/weights/Pi3X/model.safetensors \
 bash scripts/infer.sh
 ```
