@@ -17,7 +17,7 @@ weights/              Placeholder for released project weights
 requirements.txt     Python dependencies for the unified environment
 ```
 
-Large model files are not stored in GitHub. Download the project weights from the [Embody4D Hugging Face repository](https://huggingface.co/peiyantu/Embody4D), then place them in the paths described below.
+Large model files are not stored in GitHub. Download the project weights from the [Embody4D Hugging Face repository](https://huggingface.co/pytu6/Embody4D), then place them in the paths described below.
 
 ## Download only the code
 
@@ -69,7 +69,7 @@ The Pi3X code is already included in `third_party/Pi3`. Do not install its stand
 
 ### Project weights
 
-Download the released files from [Hugging Face](https://huggingface.co/peiyantu/Embody4D). The default layout is:
+Download the released files from [Hugging Face](https://huggingface.co/pytu6/Embody4D). The default layout is:
 
 ```text
 weights/
@@ -183,3 +183,4 @@ bash scripts/infer.sh
 ## Citation
 
 If you use Embody4D in your work, please cite the project paper and the release page at [peiyantu.github.io/Embody4D](https://peiyantu.github.io/Embody4D).
+

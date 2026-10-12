@@ -1,6 +1,6 @@
 # Weights
 
-Large files are released at https://huggingface.co/peiyantu/Embody4D.
+Large files are released at https://huggingface.co/pytu6/Embody4D.
 
 This open-source tree includes the released project-specific weights: the current best latent expert weights and the LIBERO checkpoint.
 
@@ -21,3 +21,4 @@ weights/sam3/sam3.pt   # only needed for SAM3 front-mask generation
 ```
 
 See `weights/BEST_CONFIG.md` and `weights/best_latent_config.json` for the validated latent route settings. For LIBERO runs, use `CHECKPOINT_DIR=weights/libero_checkpoint`.
+

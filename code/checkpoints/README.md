@@ -9,4 +9,5 @@ checkpoints/
   stable-video-diffusion-img2vid/
 ```
 
-These checkpoints are not redistributed in this repository. Download them from their upstream projects and check their licenses before use. Project specific weights, BLIP-2, and the Pi3X checkpoint are released separately through [Hugging Face](https://huggingface.co/peiyantu/Embody4D).
+These checkpoints are not redistributed in this repository. Download them from their upstream projects and check their licenses before use. Project specific weights, BLIP-2, and the Pi3X checkpoint are released separately through [Hugging Face](https://huggingface.co/pytu6/Embody4D).
+
