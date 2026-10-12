@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments
+.venv/
+venv/
+env/
+conda_env/
+
+# Runtime outputs
+outputs/
+**/outputs/
+runs/
+logs/
+wandb/
+*.log
+*.pid
+
+# Base pretrained models are external and should not be committed here.
+checkpoints/*
+!checkpoints/README.md
+
+# Keep the released best project weights; ignore other local weight drops.
+weights/*
+!weights/README.md
+!weights/BEST_CONFIG.md
+!weights/best_latent_config.json
+!weights/checkpoint/
+!weights/checkpoint/**
+!weights/latent_residual_weighted/
+!weights/latent_residual_weighted/**
+!weights/libero_checkpoint/
+!weights/libero_checkpoint/**
+
+# Other large/private model artifacts outside the released weight paths.
+*.ckpt
+*.onnx
+*.npy
+*.npz
+*.ply
+
+# Datasets and generated media
+data/*.csv
+!data/train.csv
+.DS_Store

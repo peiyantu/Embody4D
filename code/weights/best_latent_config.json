@@ -1,0 +1,15 @@
+{
+  name: stage1_latent_expert_top2vote_ckpt5000,
+  transformer_path: weights/checkpoint/transformer,
+  latent_residual_checkpoint: weights/latent_residual_weighted/final,
+  latent_route_top_k: 2,
+  latent_route_secondary_weight: 0.10,
+  latent_route_postprocess_mode: top2_vote,
+  latent_route_vote_spatial_kernel: 3,
+  latent_route_vote_temporal_kernel: 3,
+  latent_ffn_expert_scale: 0.025,
+  latent_route_copy_residual_scale: 0.0,
+  diffusion_inference_steps: 40,
+  diffusion_guidance_scale: 6.0,
+  seed: 43
+}
