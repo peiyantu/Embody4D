@@ -89,5 +89,3 @@ Front guidance is opt-in. Because front masks can be noisy, keep strong gating a
 This tree was created from an internal experiment directory by removing private datasets, experiment outputs, logs, backup files, and base pretrained checkpoints. Large project-specific weights are released as external Hugging Face artifacts.
 
 The default inference entry uses Pi3, gradual mode, and target pose `0 -10 0 0 0`; set `WARP_BACKEND=depth` to use DepthCrafter instead. Large weights are external Hugging Face artifacts.
-
-
