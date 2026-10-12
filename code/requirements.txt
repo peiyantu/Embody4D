@@ -1,0 +1,23 @@
+# Runtime dependencies for Embody4D inference.
+# Install a CUDA-compatible torch/torchvision pair first; see README.md.
+diffusers==0.32.1
+transformers==4.47.0
+accelerate==1.12.0
+xformers==0.0.27.post2
+decord==0.6.0
+av==12.0.0
+einops==0.8.1
+safetensors==0.7.0
+omegaconf==2.3.0
+opencv-python
+scipy
+scikit-image
+pillow
+tqdm
+imageio
+imageio-ffmpeg
+sentencepiece
+timm
+plyfile
+huggingface-hub
+iopath

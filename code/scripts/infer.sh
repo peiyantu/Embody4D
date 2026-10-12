@@ -161,6 +161,9 @@ cmd=(
   --video_length "${VIDEO_LENGTH:-49}"
   --fps "${FPS:-10}"
   --seed "${SEED:-43}"
+  --sample_size "${SAMPLE_HEIGHT:-384}" "${SAMPLE_WIDTH:-672}"
+  --diffusion_inference_steps "${DIFFUSION_INFERENCE_STEPS:-50}"
+  --depth_inference_steps "${DEPTH_INFERENCE_STEPS:-5}"
   --device "${DEVICE}"
   --warp_backend "${WARP_BACKEND}"
 )

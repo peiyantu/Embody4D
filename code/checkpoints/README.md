@@ -1,6 +1,6 @@
-# Checkpoints
+# External checkpoints
 
-Place the base inference checkpoints here when running Embody4D from the open-source tree:
+The inference pipeline expects these base models under this directory, or under a path supplied with `PRETRAINED_ROOT`:
 
 ```text
 checkpoints/
@@ -9,12 +9,4 @@ checkpoints/
   stable-video-diffusion-img2vid/
 ```
 
-The project-integrated weights live under `weights/`, including:
-
-```text
-weights/checkpoint/transformer/
-weights/libero_checkpoint/transformer/
-weights/latent_residual_weighted/final/
-weights/blip2-opt-2.7b/
-weights/sam3/sam3.pt
-```
+These checkpoints are not redistributed in this repository. Download them from their upstream projects and check their licenses before use. Project specific weights, BLIP-2, and the Pi3X checkpoint are released separately through [Hugging Face](https://huggingface.co/peiyantu/Embody4D).
