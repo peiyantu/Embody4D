@@ -19,6 +19,21 @@ requirements.txt     Python dependencies for the unified environment
 
 Large model files are not stored in GitHub. Download the project weights from the [Embody4D Hugging Face repository](https://huggingface.co/peiyantu/Embody4D), then place them in the paths described below.
 
+## Download only the code
+
+The GitHub repository also contains the project webpage. Use sparse checkout to fetch only this `code/` directory:
+
+```bash
+git clone --depth 1 --filter=blob:none --no-checkout https://github.com/peiyantu/Embody4D.git
+cd Embody4D
+git sparse-checkout init --cone
+git sparse-checkout set code
+git checkout
+cd code
+```
+
+After these commands, the working tree contains the inference code without the website files.
+
 ## Hardware and software
 
 The released pipeline was validated on Linux with an NVIDIA GPU, Python 3.10, CUDA 12.1 compatible PyTorch, and 80 GB of GPU memory. Smaller GPUs may require fewer frames, lower resolution, or fewer diffusion steps.
